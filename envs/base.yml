@@ -1,0 +1,12 @@
+name: 30-day-chart-challenge
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-base
+  - r-dplyr
+  - r-tidyr
+  - r-ggplot2
+  - r-viridis
+  - jupyter
