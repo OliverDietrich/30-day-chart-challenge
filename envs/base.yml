@@ -10,3 +10,6 @@ dependencies:
   - r-ggplot2
   - r-viridis
   - jupyter
+  - r-irkernel
+  - rstudio
+  - r-eurostat
