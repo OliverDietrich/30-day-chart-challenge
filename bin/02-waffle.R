@@ -5,6 +5,10 @@
 library(dplyr)
 library(ggplot2)
 
+# Variables --------------------------------------------------------------------
+
+out_dir <- "analysis/"
+
 # Data -------------------------------------------------------------------------
 
 # List ingredients
@@ -19,9 +23,25 @@ recipe <- c(
 )
 recipe <- sort(recipe, decreasing = TRUE)
 
+# Colors -----------------------------------------------------------------------
+
+col <- list()
+col$fill <- c(
+  "milk" = "lavender",
+  "flour" = "wheat",
+  "eggs" = "orange",
+  "butter" = "gold2",
+  "sugar" = "darkseagreen1",
+  "baking powder" = "lightpink",
+  "salt" = "mediumseagreen"
+)
+
+# Arrange data -----------------------------------------------------------------
+
 # Create grid for all ingredients
 total <- sum(recipe)
 
+# Wrangle
 x <- 1:29
 y <- 1:20
 df <- data.frame(
@@ -29,9 +49,19 @@ df <- data.frame(
   y = rep(y, max(x))
 )
 df$col <- c(rep(names(recipe), recipe), NA)
+df <- df[!is.na(df$col), ]
+df$col <- factor(df$col, names(recipe))
 
 # Plot -------------------------------------------------------------------------
 
 ggplot(df, aes(x, y, fill = col)) +
-  geom_tile(col = "white", size = 2)
-
+  geom_tile(col = "white", linewidth = 1) +
+  scale_fill_manual(values = col$fill) +
+  theme_void(20) +
+  theme(
+    aspect.ratio = 1,
+    legend.position = "right"
+  ) +
+  labs(fill = "Ingredient", title = "What is in my waffle?")
+fn <- paste0(out_dir, "day2_waffle.png")
+ggsave(fn, width = 8, height = 6, bg = "white")
